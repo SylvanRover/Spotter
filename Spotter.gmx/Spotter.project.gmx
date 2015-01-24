@@ -23,8 +23,10 @@
     <object>objects\obj_lifter_00</object>
     <object>objects\obj_lifter_01</object>
     <object>objects\obj_lifter_02</object>
-    <object>objects\obj_control</object>
+    <object>objects\obj_control_TEST</object>
     <object>objects\obj_screenArea</object>
+    <object>objects\obj_controller</object>
+    <object>objects\obj_camera</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_001</room>
