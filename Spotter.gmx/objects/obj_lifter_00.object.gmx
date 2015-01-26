@@ -67,7 +67,7 @@
             <kind>1</kind>
             <string>/// Variables
 
-strength_max = random_range(1000,1500);
+strength_max = random_range(700,1000);
 strength_current = strength_max;
 aggro = 0;
 help_needed = false;
@@ -75,6 +75,32 @@ lifter_spotted = false;
 lifter_tired = strength_max/2;
 lifter_help = 100;
 lifter_down = false;
+lift_rate = 1;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Spotting reset
+
+lifter_spotted = false;
 </string>
           </argument>
         </arguments>
@@ -128,10 +154,15 @@ image_index = 19;
 if (lifter_down) exit;
 
 if (!lifter_spotted){
-    strength_current--;
+    strength_current -= lift_rate;
+}
+if (strength_current &gt; lifter_tired){
+    sprite_index = spr_lifter_lift_00;
+    help_needed = false;
 }
 if (strength_current &lt;= lifter_tired &amp;&amp; strength_current &gt;= lifter_help){
     sprite_index = spr_lifter_tired_00;
+    help_needed = false;
 }
 if (strength_current &lt;= lifter_help){
     sprite_index = spr_lifter_help_00;
@@ -141,6 +172,38 @@ if (strength_current &lt;= 0){
     sprite_index = spr_lifter_collapsed_00;
     lifter_down = true;
     alarm[0]=19;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Spotter
+if lifter_down exit;
+
+d_max = 5;
+d = x - obj_spotter.x
+
+if (d &gt; -d_max &amp;&amp; d &lt; d_max &amp;&amp; obj_spotter.spotter_spot &amp;&amp; help_needed){
+    lifter_spotted = true;
+    strength_current = random_range(strength_current, strength_max);
+    alarm[1] = 19;
+    lift_rate += 0.01;
 }
 </string>
           </argument>
