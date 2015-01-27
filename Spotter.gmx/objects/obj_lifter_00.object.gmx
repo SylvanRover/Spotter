@@ -76,6 +76,32 @@ lifter_tired = strength_max/2;
 lifter_help = 100;
 lifter_down = false;
 lift_rate = 1;
+lifter_resting = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Spotting reset
+
+lifter_spotted = false;
 </string>
           </argument>
         </arguments>
@@ -98,9 +124,9 @@ lift_rate = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Spotting reset
+            <string>/// Resting Sprite
 
-lifter_spotted = false;
+sprite_index = spr_lifter_resting_00;
 </string>
           </argument>
         </arguments>
@@ -151,7 +177,7 @@ image_index = 19;
           <argument>
             <kind>1</kind>
             <string>/// Strength Bar
-if (lifter_down) exit;
+if (lifter_down || lifter_spotted) exit;
 
 if (!lifter_spotted){
     strength_current -= lift_rate;
@@ -202,7 +228,9 @@ d = x - obj_spotter.x
 if (d &gt; -d_max &amp;&amp; d &lt; d_max &amp;&amp; obj_spotter.spotter_spot &amp;&amp; help_needed){
     lifter_spotted = true;
     strength_current = random_range(strength_current, strength_max);
+    sprite_index = spr_lifter_rest_00;
     alarm[1] = 19;
+    alarm[2] = random_range(100,200);
     lift_rate += 0.01;
 }
 </string>

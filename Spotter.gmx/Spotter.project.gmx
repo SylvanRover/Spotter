@@ -15,6 +15,9 @@
     <sprite>sprites\spr_lifter_tired_00</sprite>
     <sprite>sprites\spr_lifter_help_00</sprite>
     <sprite>sprites\spr_lifter_collapsed_00</sprite>
+    <sprite>sprites\spr_lifter_rest_00</sprite>
+    <sprite>sprites\spr_lifter_resting_00</sprite>
+    <sprite>sprites\spr_settings</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>

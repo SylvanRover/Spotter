@@ -28,6 +28,8 @@
             <string>/// Follow Spotter
 x = obj_spotter.x;
 y = obj_spotter.y-10;
+
+if (x &gt; (48*obj_controller.lifter_max)) x = (48*obj_controller.lifter_max);
 </string>
           </argument>
         </arguments>

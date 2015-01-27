@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-100</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -29,6 +29,8 @@
 
 lifter_max = 5;
 lifter_distance = view_wview[0]/2;
+aggro = 3;
+settings_open = true;
 </string>
           </argument>
         </arguments>
@@ -140,6 +142,59 @@ if (global.count_down){
 
 draw_set_colour(c_white);
 draw_text(view_wport[0]/2, 10, string(global.seconds) + string(" seconds left"));
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw settings screen
+
+if(settings_open) draw_sprite(spr_settings,0,view_wport[0]/2,view_hport[0]/2);
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (settings_open){
+    draw_set_colour(c_black);
+    draw_set_alpha(0.7);
+    draw_rectangle(view_xport[0],view_yport[0],view_wport[0],view_hport[0], false);
+}
+draw_set_colour(c_white);
+draw_set_alpha(1);
 </string>
           </argument>
         </arguments>
