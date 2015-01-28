@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>/// Follow Spotter
+
 x = obj_spotter.x;
 y = obj_spotter.y-10;
 

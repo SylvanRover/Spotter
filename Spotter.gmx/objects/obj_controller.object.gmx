@@ -31,6 +31,9 @@ lifter_max = 5;
 lifter_distance = view_wview[0]/2;
 aggro = 3;
 settings_open = true;
+failed = false;
+paused = true;
+lifters_down = 0;
 </string>
           </argument>
         </arguments>
@@ -110,11 +113,87 @@ global.count_down = true;
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>/// Restart
+
+if (keyboard_check_pressed(vk_escape)) room_restart();
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///close settings
+
+if (keyboard_check_pressed(vk_up)){
+    settings_open = false;
+    paused = false;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>/// Count Down
+if (paused) exit;
 
 if (global.count_down){
     global.seconds -= 1/room_speed;
     if (global.seconds &lt;= 0) global.seconds = 0;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Lifters Down
+
+if (lifters_down &gt;= 3){
+    failed = true;
+    paused = true;
 }
 </string>
           </argument>
@@ -138,10 +217,10 @@ if (global.count_down){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Draw Timer
+            <string>/// Draw settings screen
 
-draw_set_colour(c_white);
-draw_text(view_wport[0]/2, 10, string(global.seconds) + string(" seconds left"));
+if(settings_open) draw_sprite(spr_settings,0,(view_wport[0]/2),view_hport[0]/2);
+
 </string>
           </argument>
         </arguments>
@@ -162,10 +241,36 @@ draw_text(view_wport[0]/2, 10, string(global.seconds) + string(" seconds left"))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Draw settings screen
+            <string>/// Draw Timer
+if (paused) exit;
 
-if(settings_open) draw_sprite(spr_settings,0,view_wport[0]/2,view_hport[0]/2);
+draw_set_colour(c_black);
+draw_text(view_xport[0]+100, 10, string(global.seconds) + string(" seconds left"));
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw Lifters Down
+if (paused) exit;
 
+draw_set_colour(c_black);
+draw_text(view_wport[0]-300, 10, string(obj_controller.lifters_down) + string(" lifters down"));
 </string>
           </argument>
         </arguments>
@@ -188,11 +293,14 @@ if(settings_open) draw_sprite(spr_settings,0,view_wport[0]/2,view_hport[0]/2);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (settings_open){
-    draw_set_colour(c_black);
-    draw_set_alpha(0.7);
-    draw_rectangle(view_xport[0],view_yport[0],view_wport[0],view_hport[0], false);
-}
+            <string>/// draw rectangle
+
+if (!paused) exit;
+
+draw_set_colour(c_black);
+draw_set_alpha(0.7);
+draw_rectangle(view_xport[0],view_yport[0],view_wport[0],view_hport[0], false);
+
 draw_set_colour(c_white);
 draw_set_alpha(1);
 </string>
