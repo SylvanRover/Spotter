@@ -67,7 +67,7 @@
             <kind>1</kind>
             <string>/// Variables
 
-strength_max = random_range(500,700);
+strength_max = random_range(400,600);
 strength_current = strength_max;
 aggro = 0;
 help_needed = false;

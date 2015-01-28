@@ -27,11 +27,12 @@
             <kind>1</kind>
             <string>/// Variables
 
-lifter_max = 5;
+global.lifter_max = 5;
 lifter_distance = view_wview[0]/2;
 aggro = 3;
 settings_open = true;
 failed = false;
+win = false;
 paused = true;
 lifters_down = 0;
 </string>
@@ -59,7 +60,7 @@ lifters_down = 0;
 instance_create(view_wview[0]/2, view_hview[0]-30, obj_spotter);
 instance_create(view_wview[0]/2, view_hview[0]-30, obj_camera);
 
-for(l = 0; l &lt; lifter_max; l++){
+for(l = 0; l &lt; global.lifter_max; l++){
     instance_create(lifter_distance, view_hview[0]-20, obj_lifter_00);
     lifter_distance += 50;
 }
@@ -115,7 +116,15 @@ global.count_down = true;
             <kind>1</kind>
             <string>/// Restart
 
-if (keyboard_check_pressed(vk_escape)) room_restart();
+if(!win){
+ if (keyboard_check_pressed(vk_escape)) game_restart();
+}
+if(win){
+    if (keyboard_check_pressed(vk_escape)){
+        global.lifter_max ++;
+        room_restart();
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -167,7 +176,11 @@ if (paused) exit;
 
 if (global.count_down){
     global.seconds -= 1/room_speed;
-    if (global.seconds &lt;= 0) global.seconds = 0;
+    if (global.seconds &lt;= 0){
+        global.seconds = 0;
+        pause = true;
+        win = true;
+    }
 }
 </string>
           </argument>
@@ -241,11 +254,46 @@ if(settings_open) draw_sprite(spr_settings,0,(view_wport[0]/2),view_hport[0]/2);
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>/// Draw fail
+
+draw_set_font(font_main);
+draw_set_halign(fa_center);
+if(failed){
+    draw_text(view_wport[0]/2, view_hport[0]/2 , string("Failed: You Lost 3 Lifters"));
+    draw_text(view_wport[0]/2, view_hport[0]/2+30 , string("Press ESC to Restart"));
+}
+if(win) {
+    draw_text(view_wport[0]/2, view_hport[0]/2 , string("You Won"));
+    draw_text(view_wport[0]/2, view_hport[0]/2+30 , string("Press ESC to Add another Lifter"));
+}
+
+draw_set_halign(fa_left);
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>/// Draw Timer
 if (paused) exit;
 
-draw_set_colour(c_black);
-draw_text(view_xport[0]+100, 10, string(global.seconds) + string(" seconds left"));
+draw_set_colour(c_white);
+draw_text(view_xport[0]+10, 10, string(floor(global.seconds)) + string(" seconds left"));
 </string>
           </argument>
         </arguments>
@@ -269,8 +317,8 @@ draw_text(view_xport[0]+100, 10, string(global.seconds) + string(" seconds left"
             <string>/// Draw Lifters Down
 if (paused) exit;
 
-draw_set_colour(c_black);
-draw_text(view_wport[0]-300, 10, string(obj_controller.lifters_down) + string(" lifters down"));
+draw_set_colour(c_white);
+draw_text(view_wport[0]-300, 10, string(obj_controller.lifters_down) + string("/3 lifters down"));
 </string>
           </argument>
         </arguments>

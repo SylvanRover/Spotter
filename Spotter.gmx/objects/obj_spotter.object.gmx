@@ -174,7 +174,7 @@ if (keyboard_check_pressed(vk_up)){
             <string>/// Move restriction
 
 if (x &lt; 0) x = 0;
-if (x &gt; ((48*obj_controller.lifter_max)+48)) x = ((48*obj_controller.lifter_max)+48);
+if (x &gt; ((48*global.lifter_max)+48)) x = ((48*global.lifter_max)+48);
 </string>
           </argument>
         </arguments>

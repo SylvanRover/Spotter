@@ -24,6 +24,9 @@
   <scripts name="scripts">
     <script>scripts\scr_zDepth.gml</script>
   </scripts>
+  <fonts name="fonts">
+    <font>fonts\font_main</font>
+  </fonts>
   <objects name="objects">
     <object>objects\obj_spotter</object>
     <object>objects\obj_lifter_00</object>
