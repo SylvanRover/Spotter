@@ -119,9 +119,13 @@ sprite_index = spr_spotter_idle;
             <string>/// Basic Movement
 
 if (!spotter_spot){
-    if (keyboard_check(vk_left)) x -= 2;
-    if (keyboard_check(vk_right)) x += 2;
+    if (keyboard_check(vk_left)) hspeed -= .3;
+    if (keyboard_check(vk_right)) hspeed += .3;
+    if (!keyboard_check(vk_left) &amp;&amp; !keyboard_check(vk_right))speed = 0;
 }
+else hspeed = 0;
+
+if (speed &gt;= 4) speed = 4;
 </string>
           </argument>
         </arguments>
