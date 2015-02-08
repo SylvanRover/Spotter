@@ -18,14 +18,23 @@
     <sprite>sprites\spr_lifter_rest_00</sprite>
     <sprite>sprites\spr_lifter_resting_00</sprite>
     <sprite>sprites\spr_settings</sprite>
+    <sprite>sprites\spr_infoLeft</sprite>
+    <sprite>sprites\spr_infoRight</sprite>
+    <sprite>sprites\spr_lifterHead</sprite>
+    <sprite>sprites\spr_lifterHeadX</sprite>
+    <sprite>sprites\spr_clock</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scr_zDepth.gml</script>
+    <script>scripts\scr_spotter_init.gml</script>
+    <script>scripts\scr_army_move.gml</script>
+    <script>scripts\scr_army_idle.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font_main</font>
+    <font>fonts\font_large</font>
   </fonts>
   <objects name="objects">
     <object>objects\obj_spotter</object>

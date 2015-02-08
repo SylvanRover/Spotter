@@ -35,8 +35,13 @@ failed = false;
 win = false;
 paused = true;
 lifters_down = 0;
+lifters_down_max = 0;
+lifters_head_dist = 96;
 level_current = 1;
 timelimit = 30;
+
+global.liftersLeft = 0;
+global.liftersRight = 0;
 </string>
           </argument>
         </arguments>
@@ -62,7 +67,7 @@ timelimit = 30;
 instance_create(view_wview[0]/2, view_hview[0]-30, obj_spotter);
 instance_create(view_wview[0]/2, view_hview[0]-30, obj_camera);
 
-for(l = 0; l &lt; global.lifter_max; l++){
+for(l = 0; l &lt; global.lifter_max; l++) {
     instance_create(lifter_distance, view_hview[0]-20, obj_lifter_00);
     lifter_distance += 50;
 }
@@ -100,6 +105,36 @@ global.count_down = true;
       </action>
     </event>
     <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw Lifters Info Bubble
+/*
+if (global.liftersLeft &gt; 0 &amp;&amp; !instance_exists(obj_infoLeft)) {
+    instance_create(view_xview[0]/2, view_hview[0]/2, obj_infoLeft);
+}
+
+if (global.liftersRight &gt; 0 &amp;&amp; !instance_exists(obj_infoRight)) {
+    instance_create(view_wview[0]/2, view_hview[0]/2, obj_infoRight);
+}
+*/
+</string>
+          </argument>
+        </arguments>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -183,14 +218,14 @@ if (keyboard_check_pressed(vk_space)){
           <argument>
             <kind>1</kind>
             <string>/// Count Down
-if (paused) exit;
-
-if (global.count_down){
-    global.seconds -= 1/room_speed;
-    if (global.seconds &lt;= 0){
-        global.seconds = 0;
-        paused = true;
-        win = true;
+if (!paused) {
+    if (global.count_down){
+        global.seconds -= 1/room_speed;
+        if (global.seconds &lt;= 0){
+            global.seconds = 0;
+            paused = true;
+            win = true;
+        }
     }
 }
 </string>
@@ -241,13 +276,62 @@ if (lifters_down &gt;= 3){
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>/// Draw Lifters Down
+/*if (!paused){
+    draw_set_colour(c_white);
+    draw_text(view_wport[0]-300, 10, string(obj_controller.lifters_down) + string("/3 lifters down"));
+}*/
+
+if (lifters_down = 0) {
+    draw_sprite(spr_lifterHead, image_index ,view_wport[0]-50, 50);
+    draw_sprite(spr_lifterHead, image_index ,view_wport[0]-146, 50);
+    draw_sprite(spr_lifterHead, image_index ,view_wport[0]-242, 50);
+}
+if (lifters_down = 1) {
+    draw_sprite(spr_lifterHeadX, image_index ,view_wport[0]-50, 50);
+    draw_sprite(spr_lifterHead, image_index ,view_wport[0]-146, 50);
+    draw_sprite(spr_lifterHead, image_index ,view_wport[0]-242, 50);
+}
+if (lifters_down = 2) {
+    draw_sprite(spr_lifterHeadX, image_index ,view_wport[0]-50, 50);
+    draw_sprite(spr_lifterHeadX, image_index ,view_wport[0]-146, 50);
+    draw_sprite(spr_lifterHead, image_index ,view_wport[0]-242, 50);
+}
+if (lifters_down = 3) {
+    draw_sprite(spr_lifterHeadX, image_index ,view_wport[0]-50, 50);
+    draw_sprite(spr_lifterHeadX, image_index ,view_wport[0]-146, 50);
+    draw_sprite(spr_lifterHeadX, image_index ,view_wport[0]-242, 50);
+}
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>/// Draw Level
 
 draw_set_colour(c_white);
 draw_set_halign(fa_center);
+draw_set_font(font_large);
 draw_text(view_wport[0]/2, 10, string("level ") + string(level_current));
 
 draw_set_halign(fa_left);
+draw_set_font(font_main);
 </string>
           </argument>
         </arguments>
@@ -300,57 +384,6 @@ draw_set_halign(fa_left);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Draw Lifters Down
-if (!paused){
-    draw_set_colour(c_white);
-    draw_text(view_wport[0]-300, 10, string(obj_controller.lifters_down) + string("/3 lifters down"));
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Draw Timer
-
-if (!paused){
-    draw_set_colour(c_white);
-    draw_text(view_xport[0]+10, 10, string(floor(global.seconds)) + string(" seconds left"));
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
             <string>/// Draw fail &amp; win
 if (paused){
     draw_set_font(font_main);
@@ -367,6 +400,103 @@ if (paused){
 }
 draw_set_halign(fa_left);
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw Lifters out of View Info
+
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+draw_set_font(font_large);
+
+if (global.liftersLeft &gt; 0) {
+    draw_sprite(spr_infoLeft, image_index ,view_xport[0]+100, view_hport[0]-75);
+    draw_sprite(spr_lifterHead, image_index ,view_xport[0]+100, view_hport[0]-75);
+    draw_text(view_xport[0]+170, view_hport[0]-75, string(global.liftersLeft));
+}
+
+if (global.liftersRight &gt; 0) {
+    draw_sprite(spr_infoRight, image_index ,view_wport[0]-100, view_hport[0]-75);
+    draw_sprite(spr_lifterHead, image_index ,view_wport[0]-100, view_hport[0]-75);
+    draw_text(view_wport[0]-170, view_hport[0]-75, string(global.liftersRight));
+}
+
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
+draw_set_font(font_main);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw Clock
+
+if (global.seconds &gt; 53) {
+    draw_sprite(spr_clock, 0, 50, 50);
+}
+if (global.seconds &gt; 45 &amp;&amp; global.seconds &lt;= 53) {
+    draw_sprite(spr_clock, 1, 50, 50);
+}
+if (global.seconds &gt; 38 &amp;&amp; global.seconds &lt;= 45) {
+    draw_sprite(spr_clock, 2, 50, 50);
+}
+if (global.seconds &gt; 30 &amp;&amp; global.seconds &lt;= 38) {
+    draw_sprite(spr_clock, 3, 50, 50);
+}
+if (global.seconds &gt; 23 &amp;&amp; global.seconds &lt;= 30) {
+    draw_sprite(spr_clock, 4, 50, 50);
+}
+if (global.seconds &gt; 15 &amp;&amp; global.seconds &lt;= 23) {
+    draw_sprite(spr_clock, 5, 50, 50);
+}
+if (global.seconds &gt; 8 &amp;&amp; global.seconds &lt;= 15) {
+    draw_sprite(spr_clock, 6, 50, 50);
+}
+if (global.seconds &gt; 0 &amp;&amp; global.seconds &lt;= 8) {
+    draw_sprite(spr_clock, 7, 50, 50);
+}
+if (global.seconds == 0) {
+    draw_sprite(spr_clock, 0, 50, 50);
+}
+
+/*
+if (!paused){
+    draw_set_colour(c_white);
+    draw_text(view_xport[0]+10, 10, string(floor(global.seconds)) + string(" seconds left"));
+}
+*/
 </string>
           </argument>
         </arguments>

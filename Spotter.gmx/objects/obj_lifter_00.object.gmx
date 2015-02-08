@@ -67,16 +67,18 @@
             <kind>1</kind>
             <string>/// Variables
 
-strength_max = random_range(300,600);
+strength_max = random_range(500,700);
 strength_current = strength_max;
 aggro = 0;
 help_needed = false;
 lifter_spotted = false;
 lifter_tired = strength_max/2;
-lifter_help = 100;
+lifter_help = 200;
 lifter_down = false;
 lift_rate = 1;
 lifter_resting = false;
+inViewL = true;
+inViewR = true;
 </string>
           </argument>
         </arguments>
@@ -176,6 +178,47 @@ image_index = 19;
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>/// Lifter in view
+
+if (inViewR &amp;&amp; x &gt; view_xview[0]+96) {
+    inViewR = false;
+    global.liftersRight ++;
+}
+
+if (!inViewR &amp;&amp; x &lt; view_xview[0]+96) {
+    inViewR = true;
+    global.liftersRight --;
+}
+
+if (inViewL &amp;&amp; x &lt; view_xview[0]) {
+    inViewL = false;
+    global.liftersLeft ++;
+}
+
+if (!inViewL &amp;&amp; x &gt; view_xview[0]) {
+    inViewL = true;
+    global.liftersLeft --;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>/// Strength Bar
 if(obj_controller.paused &amp;&amp; !lifter_down)sprite_index = spr_lifter_resting_00;
 
@@ -225,8 +268,8 @@ if (strength_current &lt;= 0){
             <string>/// Spotter
 if lifter_down exit;
 
-d_max = 5;
-d = x - obj_spotter.x
+d_max = 7;
+d = x - obj_spotter.x;
 
 if (d &gt; -d_max &amp;&amp; d &lt; d_max &amp;&amp; obj_spotter.spotter_spot &amp;&amp; help_needed){
     lifter_spotted = true;
@@ -234,7 +277,6 @@ if (d &gt; -d_max &amp;&amp; d &lt; d_max &amp;&amp; obj_spotter.spotter_spot &a
     sprite_index = spr_lifter_rest_00;
     alarm[1] = 19;
     alarm[2] = random_range(100,200);
-    lift_rate += 0.01;
 }
 </string>
           </argument>

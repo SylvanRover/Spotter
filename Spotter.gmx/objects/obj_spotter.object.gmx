@@ -68,6 +68,9 @@
             <string>/// Variables
 
 spotter_spot = false;
+spd = 4;
+acc = .5;
+friction = spd;
 </string>
           </argument>
         </arguments>
@@ -119,13 +122,19 @@ sprite_index = spr_spotter_idle;
             <string>/// Basic Movement
 
 if (!spotter_spot){
-    if (keyboard_check(vk_left)) hspeed -= .3;
-    if (keyboard_check(vk_right)) hspeed += .3;
-    if (!keyboard_check(vk_left) &amp;&amp; !keyboard_check(vk_right))speed = 0;
-}
-else hspeed = 0;
+    if (keyboard_check(vk_left)) {
+        friction = 0;
+        motion_add(180, acc);
+    }
+    if (keyboard_check(vk_right)) {
+        friction = 0;
+        motion_add(0, acc);
+    }
+    if (!keyboard_check(vk_right) &amp;&amp; !keyboard_check(vk_left)) friction = spd;
+    if (keyboard_check(vk_right) &amp;&amp; keyboard_check(vk_left)) friction = spd;
+} else friction = acc;
 
-if (speed &gt;= 4) speed = 4;
+if (speed &gt;= spd) speed = spd;
 </string>
           </argument>
         </arguments>
